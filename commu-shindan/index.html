@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="30問に答えるだけで、あなたのコミュニケーションタイプがわかる診断です。">
+<meta name="theme-color" content="#1a6b5c">
+<title>コミュ力診断 | しなやか自分軸アカデミー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --c1:#7ecef4;--c2:#4db8d6;--c3:#2a9d8f;--c4:#1a6b5c;--c5:#0d4f4a;
+  --bg:linear-gradient(135deg,#e8f8f8 0%,#c5eef0 50%,#a0dcd4 100%);
+  --card:#fff;--text:#1a3a3a;--sub:#3d7a7a;--line:#06c755;
+}
+body{font-family:-apple-system,'Hiragino Sans',sans-serif;background:var(--bg);min-height:100dvh;color:var(--text);line-height:1.7}
+.container{max-width:480px;margin:0 auto;padding:20px 16px;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.card{background:var(--card);border-radius:20px;padding:32px 24px;box-shadow:0 8px 32px rgba(13,79,74,.12);width:100%;text-align:center}
+h1{font-size:1.3rem;color:var(--c5);margin-bottom:4px}
+.subtitle{font-size:.8rem;color:var(--sub);margin-bottom:24px}
+.eyebrow{display:inline-block;font-size:.72rem;font-weight:700;color:var(--c4);background:#e7f7f4;border-radius:999px;padding:6px 12px;margin-bottom:14px}
+.lead{font-size:.9rem;color:var(--sub);margin-bottom:10px}
+.note{font-size:.78rem;color:var(--sub);opacity:.9}
+.progress{width:100%;height:6px;background:#d4eeeb;border-radius:3px;margin-bottom:24px;overflow:hidden}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--c1),var(--c3));border-radius:3px;transition:width .3s}
+.q-num{font-size:.75rem;color:var(--c3);font-weight:700;margin-bottom:8px}
+.question{font-size:1rem;font-weight:600;margin-bottom:24px;min-height:3.5em;display:flex;align-items:center;justify-content:center}
+.choices{display:flex;flex-direction:column;gap:12px}
+.choice-btn{border:2px solid var(--c2);background:#f0fafa;border-radius:12px;padding:14px 16px;font-size:.95rem;cursor:pointer;transition:all .2s;text-align:left;width:100%;font-weight:700}
+.choice-btn:hover,.choice-btn:focus{background:var(--c2);color:#fff;border-color:var(--c2)}
+.choice-btn:active{transform:scale(.97)}
+.start-img{font-size:3rem;margin-bottom:12px}
+.start-btn{margin-top:20px;background:linear-gradient(135deg,var(--c2),var(--c4));color:#fff;border:none;border-radius:12px;padding:16px 32px;font-size:1.05rem;font-weight:700;cursor:pointer;transition:transform .2s}
+.start-btn:hover{transform:scale(1.03)}
+.result-type{font-size:1.5rem;font-weight:800;color:var(--c5);margin:12px 0 8px}
+.result-badge{display:inline-block;background:linear-gradient(135deg,var(--c1),var(--c3));color:#fff;border-radius:30px;padding:6px 20px;font-size:.85rem;font-weight:700;margin-bottom:16px}
+.result-desc{font-size:.9rem;color:var(--sub);text-align:left;line-height:1.8;margin-bottom:20px;white-space:pre-line}
+.result-note{font-size:.78rem;color:var(--sub);background:#f2fbfa;border-radius:12px;padding:12px 14px;text-align:left;margin-bottom:18px;display:none}
+.scores{display:flex;justify-content:center;gap:16px;margin-bottom:20px}
+.score-item{text-align:center}
+.score-item .num{font-size:1.4rem;font-weight:800;color:var(--c4)}
+.score-item .label{font-size:.7rem;color:var(--sub)}
+.cta{margin-top:16px;padding:14px 24px;background:linear-gradient(135deg,var(--line),#04a648);color:#fff;border:none;border-radius:12px;font-size:.95rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;width:100%}
+.cta:hover{transform:scale(1.03)}
+.retry{margin-top:12px;background:none;border:1.5px solid var(--c3);color:var(--c3);border-radius:10px;padding:10px 20px;font-size:.85rem;cursor:pointer}
+.copyright{font-size:.65rem;color:var(--sub);margin-top:16px;opacity:.7}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="card" id="screen-start">
+  <div class="start-img">🗣️</div>
+  <p class="eyebrow">LINE登録特典</p>
+  <h1>誰でもできる<br>コミュ力診断</h1>
+  <p class="subtitle">しなやか自分軸アカデミー 所長 川西未来子</p>
+  <p class="lead">30の質問に答えるだけで<br>あなたのコミュニケーションタイプがわかります</p>
+  <p class="note">所要時間は約2〜3分です。気軽にチェックしてみてください。</p>
+  <button class="start-btn" onclick="startQuiz()">診断スタート</button>
+</div>
+
+<div class="card hidden" id="screen-quiz">
+  <div class="progress"><div class="progress-bar" id="prog"></div></div>
+  <div class="q-num" id="qnum"></div>
+  <div class="question" id="qtext"></div>
+  <div class="choices">
+    <button class="choice-btn" onclick="answer(1)">①ひっこむ</button>
+    <button class="choice-btn" onclick="answer(2)">②攻撃する</button>
+    <button class="choice-btn" onclick="answer(3)">③率直に表現する</button>
+  </div>
+</div>
+
+<div class="card hidden" id="screen-result">
+  <p style="font-size:.85rem;color:var(--sub)">あなたのタイプは…</p>
+  <div class="result-type" id="rtype"></div>
+  <div class="result-badge" id="rbadge"></div>
+  <div class="scores" id="rscores"></div>
+  <div class="result-note" id="rnote"></div>
+  <div class="result-desc" id="rdesc"></div>
+  <a class="cta" id="ctaLink" href="https://lin.ee/XXXXXX" target="_blank" rel="noopener noreferrer">LINEで詳しい解説を受け取る</a>
+  <br>
+  <button class="retry" onclick="reset()">もう一度診断する</button>
+  <p class="copyright">© 2021 MIKIKO KAWANISHI</p>
+</div>
+
+</div>
+<script>
+const config = {
+  lineUrl: "https://lin.ee/XXXXXX"
+};
+
+const questions = [
+  "子どもがあなたとの約束を守らないので、いやな気持ちでいる。",
+  "知らない人に話しかけたい。",
+  "仕事を山ほど抱え込んでいるので、これ以上命じられても無理だと思うとき、上司や同僚に「いいえ」と言いたい。",
+  "招待を受けて、行った方が良いと思うが行きたくないときに、断る。",
+  "上司の命令が不当だと感じるときに断る。",
+  "知り合いになりたい人を家に招く。",
+  "仕事ぶりが不満足だと本人に言う。",
+  "配偶者のしていることが、あなたの迷惑になっていると本人に言う。",
+  "上司に別の仕事がしたいという。",
+  "自動車の修理費が見積もりより高いと、修理工に文句を言う。",
+  "レストランで、給仕に、あなたの注文した食べものについて不満を言う。",
+  "映画の上映中、話をしている人に、迷惑だという。",
+  "買った衣類を店に持っていき、代金を返してもらう。",
+  "金を貸した相手に、返すように言う。",
+  "医者に待たされて頭にきているという。",
+  "委員長に、今年は委員会の仕事をしたくないという。",
+  "バカな質問だと思われるかもしれないようなことでも質問する。",
+  "売り場の人が、他の人に応対を始めようとしたとき、あなたが先だと言う。",
+  "もう付き合う価値がないと思う関係を断つ。",
+  "自分が家事をやり過ぎていると感じ、家族に対決する。",
+  "あなたの意見は受け入れられないかもしれないと感じる時でも、会議で発言する。",
+  "デートに遅れてきた友人に、待たされるのは好きではないと言う。",
+  "友人が、あなたがしたくないことをしてくれと頼んできたとき断る。",
+  "配偶者や友人に、何かをしてくれて本当に良かったと言う。",
+  "友だちに、なにかしてくれるように頼む。",
+  "友人に、その人のどんなところが好きか、あなたの気に入っている点を言う。",
+  "セールスマンに買いたくないという。",
+  "タバコを吸っている人に、煙で迷惑していると言う。",
+  "配偶者に、セックスしたい(またはしたくない)と言う。",
+  "好きでない仕事を辞める。"
+];
+
+const results = {
+  1: {
+    name: "ひっこみ型",
+    badge: "つい黙っちゃうタイプ",
+    desc: "相手を不機嫌にしてはいけない、相手が困るかもしれないと思うと、つい黙っちゃいますよね。\n\nひっこむことが多いと、知らない間にストレスが溜まっているかもしれません。日々しんどくないですか？\n\n健康のためにも、率直に言えるようになるといいですよね。"
+  },
+  2: {
+    name: "攻撃型",
+    badge: "つっぱねちゃうタイプ",
+    desc: "攻撃型の対応で、相手を突っぱねて、実はしんどくないですか？\n\n攻撃対応は、案外スッキリできないものです。何が本当に言いたいことなのか⁉\n\n攻撃言葉のもっと奥にある自分の本心を救い出して率直に表現できると、もっと生きやすくなりますよ。"
+  },
+  3: {
+    name: "率直型",
+    badge: "ちゃんと言えるタイプ",
+    desc: "率直型の方は、自分のことが大事にできていますよね。\n\nただ、そんなつもりはなくても相手から怖いと思われたり、「わがまま」と言われてしまうことがあるかもしれません。\n\n発言した後に相手の気持ちを汲む対応ができると、もっと生きやすくなりますよ。"
+  }
+};
+
+let current = 0;
+let scores = { 1: 0, 2: 0, 3: 0 };
+
+function show(id) {
+  document.querySelectorAll(".card").forEach((card) => card.classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
+}
+
+function startQuiz() {
+  current = 0;
+  scores = { 1: 0, 2: 0, 3: 0 };
+  showQuestion();
+  show("screen-quiz");
+}
+
+function showQuestion() {
+  document.getElementById("prog").style.width = `${(current / 30) * 100}%`;
+  document.getElementById("qnum").textContent = `Q${current + 1} / 30`;
+  document.getElementById("qtext").textContent = questions[current];
+}
+
+function answer(value) {
+  scores[value]++;
+  current++;
+  if (current >= 30) {
+    showResult();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResult() {
+  const max = Math.max(scores[1], scores[2], scores[3]);
+  const topTypes = [1, 2, 3].filter((key) => scores[key] === max);
+  const type = topTypes[0];
+  const result = results[type];
+  const noteEl = document.getElementById("rnote");
+
+  document.getElementById("rtype").textContent = result.name;
+  document.getElementById("rbadge").textContent = result.badge;
+  document.getElementById("rdesc").textContent = result.desc;
+  document.getElementById("rscores").innerHTML =
+    `<div class="score-item"><div class="num">${scores[1]}</div><div class="label">ひっこみ</div></div>` +
+    `<div class="score-item"><div class="num">${scores[2]}</div><div class="label">攻撃</div></div>` +
+    `<div class="score-item"><div class="num">${scores[3]}</div><div class="label">率直</div></div>`;
+
+  if (topTypes.length > 1) {
+    noteEl.textContent = "今回は同点の傾向がありました。場面によって複数のタイプが出やすい状態かもしれません。まずは最も強く出たタイプの特徴からチェックしてみてください。";
+    noteEl.style.display = "block";
+  } else {
+    noteEl.style.display = "none";
+  }
+
+  show("screen-result");
+}
+
+function reset() {
+  show("screen-start");
+}
+
+function applyConfig() {
+  const params = new URLSearchParams(window.location.search);
+  const lineUrl = params.get("line") || config.lineUrl;
+  document.getElementById("ctaLink").href = lineUrl;
+}
+
+applyConfig();
+</script>
+</body>
+</html>
