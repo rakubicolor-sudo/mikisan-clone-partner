@@ -35,15 +35,18 @@ h1{font-size:1.25rem;color:var(--c5);margin-bottom:4px;line-height:1.5}
 .result-type{font-size:1.35rem;font-weight:800;color:var(--c5);margin:12px 0 8px;line-height:1.45}
 .result-badge{display:inline-block;background:linear-gradient(135deg,var(--c1),var(--c3));color:#fff;border-radius:30px;padding:6px 20px;font-size:.85rem;font-weight:700;margin-bottom:16px}
 .result-desc{font-size:.9rem;color:var(--sub);text-align:left;line-height:1.8;margin-bottom:16px;white-space:pre-line}
+.result-detail{font-size:.88rem;color:var(--text);background:#f7fcfb;border:1px solid #d4eeeb;border-radius:12px;padding:14px 16px;text-align:left;line-height:1.8;margin-bottom:16px;white-space:pre-line}
+.result-detail-title{font-size:.78rem;font-weight:700;color:var(--c4);margin-bottom:8px}
 .result-common{font-size:.82rem;color:var(--c5);background:#f2fbfa;border-radius:12px;padding:12px 14px;text-align:left;margin-bottom:18px;line-height:1.75;white-space:pre-line}
 .result-note{font-size:.78rem;color:var(--sub);background:#fff8e8;border-radius:12px;padding:12px 14px;text-align:left;margin-bottom:18px;display:none;line-height:1.7}
 .scores{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
 .score-item{text-align:center;background:#f7fcfb;border-radius:10px;padding:10px 6px}
 .score-item .num{font-size:1.3rem;font-weight:800;color:var(--c4)}
 .score-item .label{font-size:.65rem;color:var(--sub);line-height:1.4;margin-top:2px}
-.cta{margin-top:16px;padding:14px 24px;background:linear-gradient(135deg,var(--line),#04a648);color:#fff;border:none;border-radius:12px;font-size:.95rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;width:100%}
+.cta{margin-top:16px;padding:14px 24px;background:linear-gradient(135deg,var(--line),#04a648);color:#fff;border:none;border-radius:12px;font-size:.95rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;width:100%;font-family:inherit}
 .cta:hover{transform:scale(1.03)}
-.cta-hint{font-size:.75rem;color:var(--sub);margin-top:10px;line-height:1.6}
+.cta-hint{font-size:.75rem;color:var(--sub);margin-top:10px;line-height:1.6;min-height:2.8em}
+.cta-hint.ok{color:var(--c4);font-weight:600}
 .retry{margin-top:12px;background:none;border:1.5px solid var(--c3);color:var(--c3);border-radius:10px;padding:10px 20px;font-size:.85rem;cursor:pointer}
 .copyright{font-size:.65rem;color:var(--sub);margin-top:16px;opacity:.7}
 .hidden{display:none}
@@ -76,9 +79,13 @@ h1{font-size:1.25rem;color:var(--c5);margin-bottom:4px;line-height:1.5}
   <div class="scores" id="rscores"></div>
   <div class="result-note" id="rnote"></div>
   <div class="result-desc" id="rdesc"></div>
+  <div class="result-detail">
+    <div class="result-detail-title">📖 詳しい解説</div>
+    <div id="rdetail"></div>
+  </div>
   <div class="result-common" id="rcommon"></div>
-  <a class="cta" id="ctaLink" href="#" target="_blank" rel="noopener noreferrer">LINEで詳しい解説を受け取る</a>
-  <p class="cta-hint">診断結果を見て「当たってる」と感じたら、<br>LINEにひとこと返信してみてください。</p>
+  <button type="button" class="cta" id="ctaBtn">LINEに結果を送る</button>
+  <p class="cta-hint" id="ctaHint">ボタンを押すと結果文がコピーされます。<br>LINEアプリに戻って、トーク画面に貼り付けて送ってください。</p>
   <br>
   <button class="retry" onclick="reset()">もう一度診断する</button>
   <p class="copyright">© 2021 MIKIKO KAWANISHI</p>
@@ -87,7 +94,7 @@ h1{font-size:1.25rem;color:var(--c5);margin-bottom:4px;line-height:1.5}
 </div>
 <script>
 const config = {
-  lineUrl: "https://utage2525.sinajiku.com/line/open/8eAs8859RBpH"
+  lineMessagePrefix: "支え方のすれ違い診断を受けました。"
 };
 
 const typeLabels = {
@@ -212,22 +219,26 @@ const results = {
   1: {
     name: "先回りサポートタイプ",
     badge: "困る前に動くタイプ",
-    desc: "相手のために先回りして動くのは、とても優しい支え方です。\n\nただ、代わりにやりすぎると、相手は「自分でできない人」と感じたり、感謝より依存につながることがあります。\n\n「手を出す前に、相手がどうしたいか」を一度聞くだけで、善意が届きやすくなります。"
+    desc: "相手のために先回りして動くのは、とても優しい支え方です。\n\nただ、代わりにやりすぎると、相手は「自分でできない人」と感じたり、感謝より依存につながることがあります。",
+    detail: "【なぜすれ違う？】\n相手は「助けてほしい」と言う前に、あなたが動いてしまうことがあります。親切なつもりでも、相手からは「決めつけられた」「自分の力を試すチャンスがない」と感じられることも。\n\n【相手の本音】\n「ありがとう、でも自分でやってみたいの」\n「頼まれたわけじゃないのに…」\n\n【試してほしい一言】\n「手伝おうか？ それとも、まず自分でやってみる？」\n\n【4つの軸のヒント】\n相手の「欲求（やってみたい／任されたい）」を先に聞く。あなたの善意は、その確認のあとに出すと届きやすくなります。"
   },
   2: {
     name: "正解を渡したいタイプ",
     badge: "答え・方法を教えるタイプ",
-    desc: "正しい方向を示したいのは、相手を大切にしているから。\n\nただ、アドバイスが早すぎると、相手は「否定された」「わかってもらえない」と感じることがあります。\n\nまず相手の気持ちを受け止めてから、一緒に考える順番に変えるだけで、関係は大きく変わります。"
+    desc: "正しい方向を示したいのは、相手を大切にしているから。\n\nただ、アドバイスが早すぎると、相手は「否定された」「わかってもらえない」と感じることがあります。",
+    detail: "【なぜすれ違う？】\n正解を早く渡すほど、相手の「話を聞いてほしい」気持ちが満たされないことがあります。解決策より先に、感情の受け止めが必要な場面も多いです。\n\n【相手の本音】\n「アドバイスより、まず理解してほしい」\n「正しさより、一緒に考えてほしい」\n\n【試してほしい一言】\n「それ、しんどかったね。どうしたい？」\n\n【4つの軸のヒント】\nまず「感情」を受け止めてから、厳選した「価値観（大切にしたいこと）」を一緒に探す。正解は、後から一緒に見つければ十分です。"
   },
   3: {
     name: "心配で見守れないタイプ",
     badge: "不安が先に出るタイプ",
-    desc: "心配するのは、愛情の表れです。\n\nただ、確認や注意が続くと、相手は「信頼されていない」「監視されている」と感じることがあります。\n\n「見守る＝黙って待つ」ではなく、必要なときだけ声をかける距離感を意識すると、安心と自由の両方を届けられます。"
+    desc: "心配するのは、愛情の表れです。\n\nただ、確認や注意が続くと、相手は「信頼されていない」「監視されている」と感じることがあります。",
+    detail: "【なぜすれ違う？】\n心配の言葉が、相手には「否定」や「不安の押し付け」として届くことがあります。あなたの不安が先に出るほど、相手は心を閉ざしやすくなります。\n\n【相手の本音】\n「心配されると、余計に自信がなくなる」\n「信頼されていない気がする」\n\n【試してほしい一言】\n「心配してるけど、あなたを信じてる。困ったら言ってね」\n\n【4つの軸のヒント】\nあなたの「感情（不安）」と、相手への「信頼」を分けて伝える。確認は「何度も」ではなく「必要なときだけ」に。"
   },
   4: {
     name: "信じて引き出すタイプ",
     badge: "任せて待つタイプ",
-    desc: "相手の力を信じて見守るのは、とても大切な支え方です。\n\nただ、任せすぎると「放っておかれている」「関心がない」と感じられることもあります。\n\n見守りながらも「困ったら言ってね」と伝える一言があるだけで、相手は安心して動き出せます。"
+    desc: "相手の力を信じて見守るのは、とても大切な支え方です。\n\nただ、任せすぎると「放っておかれている」「関心がない」と感じられることもあります。",
+    detail: "【なぜすれ違う？】\n見守ることが、相手には「関心がない」「頼れない」というサインに見えることがあります。特に、困っているサインが出ているのに声をかけないと、すれ違いが起きやすいです。\n\n【相手の本音】\n「見てくれているのはわかるけど、もう少し関わってほしい」\n「一人で抱え込ませないで」\n\n【試してほしい一言】\n「任せてるよ。でも、話したくなったらいつでも来てね」\n\n【4つの軸のヒント】\n「目的（相手の成長）」はそのままに、小さな「関心のサイン」を添える。見守り＋一言の声かけで、信頼と安心の両方が届きます。"
   }
 };
 
@@ -236,6 +247,7 @@ const commonMessage =
 
 let current = 0;
 let scores = { 1: 0, 2: 0, 3: 0, 4: 0 };
+let lastResultName = "";
 
 function show(id) {
   document.querySelectorAll(".card").forEach((card) => card.classList.add("hidden"));
@@ -290,7 +302,13 @@ function showResult() {
   document.getElementById("rtype").textContent = result.name;
   document.getElementById("rbadge").textContent = result.badge;
   document.getElementById("rdesc").textContent = result.desc;
+  document.getElementById("rdetail").textContent = result.detail;
   document.getElementById("rcommon").textContent = commonMessage;
+  lastResultName = result.name;
+
+  const hintEl = document.getElementById("ctaHint");
+  hintEl.textContent = "ボタンを押すと結果文がコピーされます。\nLINEアプリに戻って、トーク画面に貼り付けて送ってください。";
+  hintEl.classList.remove("ok");
 
   document.getElementById("rscores").innerHTML = [1, 2, 3, 4]
     .map(
@@ -310,17 +328,48 @@ function showResult() {
   show("screen-result");
 }
 
+function buildLineMessage(typeName) {
+  return `${config.lineMessagePrefix}\n結果：${typeName}\n当たってます！`;
+}
+
+function copyLineMessage() {
+  const message = buildLineMessage(lastResultName);
+  const hintEl = document.getElementById("ctaHint");
+
+  function onSuccess() {
+    hintEl.textContent = "✅ 結果をコピーしました。LINEアプリに戻って、トーク画面に貼り付けて送ってください。";
+    hintEl.classList.add("ok");
+  }
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(message).then(onSuccess).catch(() => fallbackCopy(message, onSuccess));
+  } else {
+    fallbackCopy(message, onSuccess);
+  }
+}
+
+function fallbackCopy(message, onSuccess) {
+  const area = document.createElement("textarea");
+  area.value = message;
+  area.setAttribute("readonly", "");
+  area.style.position = "fixed";
+  area.style.left = "-9999px";
+  document.body.appendChild(area);
+  area.select();
+  try {
+    document.execCommand("copy");
+    onSuccess();
+  } catch (err) {
+    document.getElementById("ctaHint").textContent = message;
+  }
+  document.body.removeChild(area);
+}
+
 function reset() {
   show("screen-start");
 }
 
-function applyConfig() {
-  const params = new URLSearchParams(window.location.search);
-  const lineUrl = params.get("line") || config.lineUrl;
-  document.getElementById("ctaLink").href = lineUrl;
-}
-
-applyConfig();
+document.getElementById("ctaBtn").addEventListener("click", copyLineMessage);
 </script>
 </body>
 </html>

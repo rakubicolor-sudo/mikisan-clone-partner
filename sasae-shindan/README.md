@@ -35,26 +35,21 @@ https://rakubicolor-sudo.github.io/mikisan-clone-partner/
 2. 公開後のURLを、UTAGEの友だち追加メッセージのボタンに設定する
 3. Instagramからの入口は必ず UTAGE の LINE登録 URL を使う
 
+## 結果画面の動き
+
+- **詳しい解説** … 結果ページ内にタイプ別で表示（その場で読める）
+- **LINEに結果を送る** … 結果文をコピー → LINEアプリのトーク画面に貼り付けて送信
+
+※ 旧版は友だち追加URLへ飛んで診断が最初から始まる不具合がありました。現在は修正済みです。
+
 ## LINE URLの差し替え
 
-結果画面のボタン先は、`index.html` 内の以下を変更してください。
+結果画面の送信文の冒頭は、`index.html` 内の以下を変更してください。
 
 ```javascript
 const config = {
-  lineUrl: "https://utage2525.sinajiku.com/line/open/8eAs8859RBpH"
+  lineMessagePrefix: "支え方のすれ違い診断を受けました。"
 };
-```
-
-※ すでに友だち追加済みの方が診断する場合、CTAは「LINEに戻って返信」が主目的です。必要に応じて公式LINEのトークURLに差し替えてください。
-
-## 公開後にURLパラメータで上書きする方法
-
-公開URLの末尾に `?line=` を付けると、ボタン先を一時的に上書きできます。
-
-例:
-
-```text
-https://example.com/sasae-shindan/?line=https%3A%2F%2Futage2525.sinajiku.com%2Fline%2Fopen%2F8eAs8859RBpH
 ```
 
 ## ローカルで確認
