@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="12問に答えるだけで、あなたの支え方のクセがわかる無料診断です。">
+<meta name="theme-color" content="#1a6b5c">
+<title>支え方のすれ違い診断 | しなやか自分軸アカデミー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --c1:#7ecef4;--c2:#4db8d6;--c3:#2a9d8f;--c4:#1a6b5c;--c5:#0d4f4a;
+  --bg:linear-gradient(135deg,#e8f8f8 0%,#c5eef0 50%,#a0dcd4 100%);
+  --card:#fff;--text:#1a3a3a;--sub:#3d7a7a;--line:#06c755;
+}
+body{font-family:-apple-system,'Hiragino Sans',sans-serif;background:var(--bg);min-height:100dvh;color:var(--text);line-height:1.7}
+.container{max-width:480px;margin:0 auto;padding:20px 16px;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.card{background:var(--card);border-radius:20px;padding:32px 24px;box-shadow:0 8px 32px rgba(13,79,74,.12);width:100%;text-align:center}
+h1{font-size:1.25rem;color:var(--c5);margin-bottom:4px;line-height:1.5}
+.subtitle{font-size:.8rem;color:var(--sub);margin-bottom:24px}
+.eyebrow{display:inline-block;font-size:.72rem;font-weight:700;color:var(--c4);background:#e7f7f4;border-radius:999px;padding:6px 12px;margin-bottom:14px}
+.lead{font-size:.9rem;color:var(--sub);margin-bottom:10px}
+.note{font-size:.78rem;color:var(--sub);opacity:.9}
+.progress{width:100%;height:6px;background:#d4eeeb;border-radius:3px;margin-bottom:24px;overflow:hidden}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--c1),var(--c3));border-radius:3px;transition:width .3s}
+.q-num{font-size:.75rem;color:var(--c3);font-weight:700;margin-bottom:8px}
+.question{font-size:1rem;font-weight:600;margin-bottom:24px;min-height:3.5em;display:flex;align-items:center;justify-content:center;text-align:center}
+.choices{display:flex;flex-direction:column;gap:10px}
+.choice-btn{border:2px solid var(--c2);background:#f0fafa;border-radius:12px;padding:13px 14px;font-size:.88rem;cursor:pointer;transition:all .2s;text-align:left;width:100%;font-weight:600;line-height:1.55}
+.choice-btn:hover,.choice-btn:focus{background:var(--c2);color:#fff;border-color:var(--c2)}
+.choice-btn:active{transform:scale(.97)}
+.start-img{font-size:3rem;margin-bottom:12px}
+.start-btn{margin-top:20px;background:linear-gradient(135deg,var(--c2),var(--c4));color:#fff;border:none;border-radius:12px;padding:16px 32px;font-size:1.05rem;font-weight:700;cursor:pointer;transition:transform .2s;width:100%}
+.start-btn:hover{transform:scale(1.03)}
+.result-type{font-size:1.35rem;font-weight:800;color:var(--c5);margin:12px 0 8px;line-height:1.45}
+.result-badge{display:inline-block;background:linear-gradient(135deg,var(--c1),var(--c3));color:#fff;border-radius:30px;padding:6px 20px;font-size:.85rem;font-weight:700;margin-bottom:16px}
+.result-desc{font-size:.9rem;color:var(--sub);text-align:left;line-height:1.8;margin-bottom:16px;white-space:pre-line}
+.result-common{font-size:.82rem;color:var(--c5);background:#f2fbfa;border-radius:12px;padding:12px 14px;text-align:left;margin-bottom:18px;line-height:1.75;white-space:pre-line}
+.result-note{font-size:.78rem;color:var(--sub);background:#fff8e8;border-radius:12px;padding:12px 14px;text-align:left;margin-bottom:18px;display:none;line-height:1.7}
+.scores{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+.score-item{text-align:center;background:#f7fcfb;border-radius:10px;padding:10px 6px}
+.score-item .num{font-size:1.3rem;font-weight:800;color:var(--c4)}
+.score-item .label{font-size:.65rem;color:var(--sub);line-height:1.4;margin-top:2px}
+.cta{margin-top:16px;padding:14px 24px;background:linear-gradient(135deg,var(--line),#04a648);color:#fff;border:none;border-radius:12px;font-size:.95rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;width:100%}
+.cta:hover{transform:scale(1.03)}
+.cta-hint{font-size:.75rem;color:var(--sub);margin-top:10px;line-height:1.6}
+.retry{margin-top:12px;background:none;border:1.5px solid var(--c3);color:var(--c3);border-radius:10px;padding:10px 20px;font-size:.85rem;cursor:pointer}
+.copyright{font-size:.65rem;color:var(--sub);margin-top:16px;opacity:.7}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="card" id="screen-start">
+  <div class="start-img">🤝</div>
+  <p class="eyebrow">LINE登録特典</p>
+  <h1>あなたの善意、<br>ちゃんと届いてる？</h1>
+  <p class="subtitle">3分でわかる「支え方のすれ違い診断」<br>しなやか自分軸アカデミー 所長 川西未来子</p>
+  <p class="lead">学んで、考えて、相手のために頑張っている。<br>それなのに、響かない・心を開いてくれない…<br>そんな方のための診断です。</p>
+  <p class="note">12の質問・所要時間 約3分。正解・不正解はありません。</p>
+  <button class="start-btn" onclick="startQuiz()">診断スタート</button>
+</div>
+
+<div class="card hidden" id="screen-quiz">
+  <div class="progress"><div class="progress-bar" id="prog"></div></div>
+  <div class="q-num" id="qnum"></div>
+  <div class="question" id="qtext"></div>
+  <div class="choices" id="choices"></div>
+</div>
+
+<div class="card hidden" id="screen-result">
+  <p style="font-size:.85rem;color:var(--sub)">あなたの支え方タイプは…</p>
+  <div class="result-type" id="rtype"></div>
+  <div class="result-badge" id="rbadge"></div>
+  <div class="scores" id="rscores"></div>
+  <div class="result-note" id="rnote"></div>
+  <div class="result-desc" id="rdesc"></div>
+  <div class="result-common" id="rcommon"></div>
+  <a class="cta" id="ctaLink" href="#" target="_blank" rel="noopener noreferrer">LINEで詳しい解説を受け取る</a>
+  <p class="cta-hint">診断結果を見て「当たってる」と感じたら、<br>LINEにひとこと返信してみてください。</p>
+  <br>
+  <button class="retry" onclick="reset()">もう一度診断する</button>
+  <p class="copyright">© 2021 MIKIKO KAWANISHI</p>
+</div>
+
+</div>
+<script>
+const config = {
+  lineUrl: "https://utage2525.sinajiku.com/line/open/8eAs8859RBpH"
+};
+
+const typeLabels = {
+  1: "先回り",
+  2: "正解を渡す",
+  3: "心配",
+  4: "信じて引き出す"
+};
+
+const questions = [
+  {
+    text: "子どもや部下が、同じミスを何度も繰り返している。",
+    choices: [
+      { type: 1, label: "代わりにやってしまう／先回りして整える" },
+      { type: 2, label: "正しいやり方を丁寧に教える" },
+      { type: 3, label: "大丈夫か心配で、こまめに様子を見る" },
+      { type: 4, label: "本人が気づくまで見守る" }
+    ]
+  },
+  {
+    text: "大切な人が「大丈夫」と言うが、様子がおかしい。",
+    choices: [
+      { type: 1, label: "すぐに手助けや準備をする" },
+      { type: 2, label: "状況を整理して、どうすればいいかアドバイスする" },
+      { type: 3, label: "何度も確認して、無理していないか聞く" },
+      { type: 4, label: "信じて、話したくなるまで待つ" }
+    ]
+  },
+  {
+    text: "チームや家族で、意見が食い違った。",
+    choices: [
+      { type: 1, label: "場を丸く収めるために先に動く" },
+      { type: 2, label: "正しい方向性を示して整理する" },
+      { type: 3, label: "みんなが傷ついていないか気になる" },
+      { type: 4, label: "それぞれの考えを出せるよう見守る" }
+    ]
+  },
+  {
+    text: "相手が黙り込んで、話してくれない。",
+    choices: [
+      { type: 1, label: "話題を変えたり、場の空気を変えようとする" },
+      { type: 2, label: "「こう言えば伝わるよ」と例を示す" },
+      { type: 3, label: "何かあったのではと心配して何度も声をかける" },
+      { type: 4, label: "無理に聞かず、タイミングを待つ" }
+    ]
+  },
+  {
+    text: "誰かが新しいことに挑戦しようとしている。",
+    choices: [
+      { type: 1, label: "必要なものを準備して、道筋を整える" },
+      { type: 2, label: "成功のコツや手順を伝える" },
+      { type: 3, label: "失敗しないか、無理していないか心配" },
+      { type: 4, label: "本人のペースを信じて見守る" }
+    ]
+  },
+  {
+    text: "相手が落ち込んでいる。",
+    choices: [
+      { type: 1, label: "用事を済ませたり、環境を整えて楽にする" },
+      { type: 2, label: "前向きになる方法や考え方を伝える" },
+      { type: 3, label: "ずっとそばにいて、大丈夫か確認する" },
+      { type: 4, label: "一人になれる時間も大切にしつつ見守る" }
+    ]
+  },
+  {
+    text: "期限が迫っているが、相手のペースが遅い。",
+    choices: [
+      { type: 1, label: "自分が引き受けて間に合わせる" },
+      { type: 2, label: "効率的な進め方を具体的に指示する" },
+      { type: 3, label: "焦らないでと言いつつ、こまめに進捗を確認" },
+      { type: 4, label: "本人に任せて、結果を待つ" }
+    ]
+  },
+  {
+    text: "頑張っているのに、評価されない・伝わらないと感じる。",
+    choices: [
+      { type: 1, label: "もっと手を添えて、成果が出るよう助ける" },
+      { type: 2, label: "評価されるコミュニケーションの仕方を教える" },
+      { type: 3, label: "無理していないか、疲れていないか気になる" },
+      { type: 4, label: "本人の努力を認めて、信じ続ける" }
+    ]
+  },
+  {
+    text: "家族やメンバーが、相談してこない。",
+    choices: [
+      { type: 1, label: "困っていそうなところを先に片付ける" },
+      { type: 2, label: "相談しやすい言い方やタイミングを提案する" },
+      { type: 3, label: "何かあったらいつでもと、何度も声をかける" },
+      { type: 4, label: "必要なときに来ると信じて、距離を保つ" }
+    ]
+  },
+  {
+    text: "体調を崩した大切な人が「平気」と言っている。",
+    choices: [
+      { type: 1, label: "無理させないよう、代わりにできることをする" },
+      { type: 2, label: "休むべき理由や対処法を説明する" },
+      { type: 3, label: "本当に平気か、何度も確認する" },
+      { type: 4, label: "本人の判断を尊重して見守る" }
+    ]
+  },
+  {
+    text: "成果が思うように出ていない。",
+    choices: [
+      { type: 1, label: "自分が入って手順や環境を整える" },
+      { type: 2, label: "改善点と正しい進め方を伝える" },
+      { type: 3, label: "プレッシャーを与えないよう気を配りつつ様子を見る" },
+      { type: 4, label: "本人が学べるよう、任せて見守る" }
+    ]
+  },
+  {
+    text: "尽くしても「ありがとう」と言われず、伝わらないと感じる。",
+    choices: [
+      { type: 1, label: "もっと手助けをして、伝わるよう努力する" },
+      { type: 2, label: "感謝される言い方・伝え方のコツを教える" },
+      { type: 3, label: "相手の様子を気にしながら、距離を保てず確認してしまう" },
+      { type: 4, label: "今は伝わっていなくても、いつか届くと信じて見守る" }
+    ]
+  }
+];
+
+const results = {
+  1: {
+    name: "先回りサポートタイプ",
+    badge: "困る前に動くタイプ",
+    desc: "相手のために先回りして動くのは、とても優しい支え方です。\n\nただ、代わりにやりすぎると、相手は「自分でできない人」と感じたり、感謝より依存につながることがあります。\n\n「手を出す前に、相手がどうしたいか」を一度聞くだけで、善意が届きやすくなります。"
+  },
+  2: {
+    name: "正解を渡したいタイプ",
+    badge: "答え・方法を教えるタイプ",
+    desc: "正しい方向を示したいのは、相手を大切にしているから。\n\nただ、アドバイスが早すぎると、相手は「否定された」「わかってもらえない」と感じることがあります。\n\nまず相手の気持ちを受け止めてから、一緒に考える順番に変えるだけで、関係は大きく変わります。"
+  },
+  3: {
+    name: "心配で見守れないタイプ",
+    badge: "不安が先に出るタイプ",
+    desc: "心配するのは、愛情の表れです。\n\nただ、確認や注意が続くと、相手は「信頼されていない」「監視されている」と感じることがあります。\n\n「見守る＝黙って待つ」ではなく、必要なときだけ声をかける距離感を意識すると、安心と自由の両方を届けられます。"
+  },
+  4: {
+    name: "信じて引き出すタイプ",
+    badge: "任せて待つタイプ",
+    desc: "相手の力を信じて見守るのは、とても大切な支え方です。\n\nただ、任せすぎると「放っておかれている」「関心がない」と感じられることもあります。\n\n見守りながらも「困ったら言ってね」と伝える一言があるだけで、相手は安心して動き出せます。"
+  }
+};
+
+const commonMessage =
+  "あなたのタイプは性格ではなく、\n相手を大切にしようとして身につけた支え方のクセです。\n\n善意は間違っていません。\n届け方を少し変えるだけで、関係は変わります。";
+
+let current = 0;
+let scores = { 1: 0, 2: 0, 3: 0, 4: 0 };
+
+function show(id) {
+  document.querySelectorAll(".card").forEach((card) => card.classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
+}
+
+function startQuiz() {
+  current = 0;
+  scores = { 1: 0, 2: 0, 3: 0, 4: 0 };
+  showQuestion();
+  show("screen-quiz");
+}
+
+function showQuestion() {
+  const total = questions.length;
+  const q = questions[current];
+
+  document.getElementById("prog").style.width = `${(current / total) * 100}%`;
+  document.getElementById("qnum").textContent = `Q${current + 1} / ${total}`;
+  document.getElementById("qtext").textContent = q.text;
+
+  const choicesEl = document.getElementById("choices");
+  choicesEl.innerHTML = q.choices
+    .map(
+      (choice, index) =>
+        `<button class="choice-btn" onclick="answer(${choice.type})">${["①", "②", "③", "④"][index]}${choice.label}</button>`
+    )
+    .join("");
+}
+
+function answer(type) {
+  scores[type]++;
+  current++;
+  if (current >= questions.length) {
+    showResult();
+  } else {
+    showQuestion();
+  }
+}
+
+function resolveTopType() {
+  const max = Math.max(scores[1], scores[2], scores[3], scores[4]);
+  return [1, 2, 3, 4].filter((key) => scores[key] === max);
+}
+
+function showResult() {
+  const topTypes = resolveTopType();
+  const type = topTypes[0];
+  const result = results[type];
+  const noteEl = document.getElementById("rnote");
+
+  document.getElementById("rtype").textContent = result.name;
+  document.getElementById("rbadge").textContent = result.badge;
+  document.getElementById("rdesc").textContent = result.desc;
+  document.getElementById("rcommon").textContent = commonMessage;
+
+  document.getElementById("rscores").innerHTML = [1, 2, 3, 4]
+    .map(
+      (key) =>
+        `<div class="score-item"><div class="num">${scores[key]}</div><div class="label">${typeLabels[key]}</div></div>`
+    )
+    .join("");
+
+  if (topTypes.length > 1) {
+    const names = topTypes.map((key) => typeLabels[key]).join("・");
+    noteEl.textContent = `今回は「${names}」が同点でした。場面によって複数の支え方が出やすい状態かもしれません。まずはいちばん強く出たタイプの特徴からチェックしてみてください。`;
+    noteEl.style.display = "block";
+  } else {
+    noteEl.style.display = "none";
+  }
+
+  show("screen-result");
+}
+
+function reset() {
+  show("screen-start");
+}
+
+function applyConfig() {
+  const params = new URLSearchParams(window.location.search);
+  const lineUrl = params.get("line") || config.lineUrl;
+  document.getElementById("ctaLink").href = lineUrl;
+}
+
+applyConfig();
+</script>
+</body>
+</html>
