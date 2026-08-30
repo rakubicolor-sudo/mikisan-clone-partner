@@ -1,10 +1,10 @@
 {
   "mcpServers": {
     "utage": {
-      "url": "https://api.utage-system.com/mcp"
-    },
-    "utage-meta": {
-      "url": "https://api.utage-system.com/mcp/meta"
+      "url": "https://api.utage-system.com/mcp",
+      "headers": {
+        "Authorization": "Bearer 9e38e6aee2c0afaea1e4b6df005e6688307862b4c581f89d023f0c735188a2cd"
+      }
     }
   }
 }
