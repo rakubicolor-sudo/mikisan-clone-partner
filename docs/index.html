@@ -35,8 +35,10 @@ h1{font-size:1.25rem;color:var(--c5);margin-bottom:4px;line-height:1.5}
 .result-type{font-size:1.35rem;font-weight:800;color:var(--c5);margin:12px 0 8px;line-height:1.45}
 .result-badge{display:inline-block;background:linear-gradient(135deg,var(--c1),var(--c3));color:#fff;border-radius:30px;padding:6px 20px;font-size:.85rem;font-weight:700;margin-bottom:16px}
 .result-desc{font-size:.9rem;color:var(--sub);text-align:left;line-height:1.8;margin-bottom:16px;white-space:pre-line}
-.result-detail{font-size:.88rem;color:var(--text);background:#f7fcfb;border:1px solid #d4eeeb;border-radius:12px;padding:14px 16px;text-align:left;line-height:1.8;margin-bottom:16px;white-space:pre-line}
-.result-detail-title{font-size:.78rem;font-weight:700;color:var(--c4);margin-bottom:8px}
+.result-teaser{font-size:.82rem;color:var(--text);background:#fff8e8;border:1px dashed #e8c96a;border-radius:12px;padding:14px 16px;text-align:left;line-height:1.85;margin-bottom:16px}
+.result-teaser-title{font-size:.85rem;font-weight:700;color:#9a7b2e;margin-bottom:8px}
+.result-teaser-list{margin:0;padding-left:1.1em}
+.result-teaser-foot{margin-top:10px;font-size:.78rem;color:var(--sub);line-height:1.7}
 .result-common{font-size:.82rem;color:var(--c5);background:#f2fbfa;border-radius:12px;padding:12px 14px;text-align:left;margin-bottom:18px;line-height:1.75;white-space:pre-line}
 .result-note{font-size:.78rem;color:var(--sub);background:#fff8e8;border-radius:12px;padding:12px 14px;text-align:left;margin-bottom:18px;display:none;line-height:1.7}
 .scores{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
@@ -85,19 +87,25 @@ h1{font-size:1.25rem;color:var(--c5);margin-bottom:4px;line-height:1.5}
     <ol class="cta-step-list">
       <li><span class="cta-step-num">①</span><span>LINEアプリに戻る</span></li>
       <li><span class="cta-step-num">②</span><span>下の<strong>キーワード</strong>をそのまま送る</span></li>
-      <li><span class="cta-step-num">③</span><span>タイプ別の追加解説が自動で届く</span></li>
+      <li><span class="cta-step-num">③</span><span>くわしい解説が<strong>自動で届く</strong></span></li>
     </ol>
     <div class="cta-keyword-label">あなたのキーワード</div>
     <div class="cta-keyword" id="rkeyword"></div>
-    <p class="cta-keyword-note">↑ この言葉をコピーせず、<br>LINEのトーク画面でそのまま送ってください</p>
+    <p class="cta-keyword-note">↑ この1語をLINEに送ると<br>下記のくわしい解説が届きます</p>
+  </div>
+  <div class="result-desc" id="rdesc"></div>
+  <div class="result-teaser">
+    <div class="result-teaser-title">📩 キーワードを送ると届くくわしい解説</div>
+    <ul class="result-teaser-list">
+      <li>なぜすれ違うのか</li>
+      <li>相手の本音</li>
+      <li>試してほしい一言</li>
+      <li>4つの軸のヒント</li>
+    </ul>
+    <p class="result-teaser-foot">※ このページでは要点だけお伝えしています。<br>くわしい解説はLINEでお届けします。</p>
   </div>
   <div class="scores" id="rscores"></div>
   <div class="result-note" id="rnote"></div>
-  <div class="result-desc" id="rdesc"></div>
-  <div class="result-detail">
-    <div class="result-detail-title">📖 詳しい解説</div>
-    <div id="rdetail"></div>
-  </div>
   <div class="result-common" id="rcommon"></div>
   <br>
   <button class="retry" onclick="reset()">もう一度診断する</button>
@@ -316,7 +324,6 @@ function showResult() {
   document.getElementById("rtype").textContent = result.name;
   document.getElementById("rbadge").textContent = result.badge;
   document.getElementById("rdesc").textContent = result.desc;
-  document.getElementById("rdetail").textContent = result.detail;
   document.getElementById("rcommon").textContent = commonMessage;
   document.getElementById("rkeyword").textContent = result.keyword;
 
