@@ -43,9 +43,14 @@ h1{font-size:1.25rem;color:var(--c5);margin-bottom:4px;line-height:1.5}
 .score-item{text-align:center;background:#f7fcfb;border-radius:10px;padding:10px 6px}
 .score-item .num{font-size:1.3rem;font-weight:800;color:var(--c4)}
 .score-item .label{font-size:.65rem;color:var(--sub);line-height:1.4;margin-top:2px}
-.cta-keyword{display:inline-block;margin-top:4px;padding:10px 20px;background:#fff;border:2px dashed var(--c3);border-radius:12px;font-size:1.2rem;font-weight:800;color:var(--c5);letter-spacing:.04em}
-.cta{margin-top:16px;padding:14px 24px;background:linear-gradient(135deg,var(--line),#04a648);color:#fff;border:none;border-radius:12px;font-size:.95rem;font-weight:700;cursor:default;text-decoration:none;display:inline-block;width:100%;font-family:inherit}
-.cta-hint{font-size:.82rem;color:var(--sub);margin-top:12px;line-height:1.7}
+.cta-step{background:#f0fafa;border-radius:12px;padding:16px;margin-top:16px;text-align:left}
+.cta-step-title{font-size:.85rem;font-weight:700;color:var(--c4);margin-bottom:12px;text-align:center}
+.cta-step-list{font-size:.82rem;color:var(--sub);line-height:1.9;margin-bottom:14px;padding-left:0;list-style:none}
+.cta-step-list li{display:flex;gap:8px;align-items:flex-start}
+.cta-step-num{flex:0 0 1.4em;font-weight:800;color:var(--c4)}
+.cta-keyword-label{font-size:.78rem;color:var(--sub);margin-bottom:8px}
+.cta-keyword{display:block;margin:0 auto;padding:14px 20px;background:#fff;border:3px solid var(--c3);border-radius:12px;font-size:1.45rem;font-weight:800;color:var(--c5);letter-spacing:.06em;max-width:280px}
+.cta-keyword-note{font-size:.78rem;color:var(--c4);margin-top:10px;line-height:1.7;font-weight:600}
 .retry{margin-top:12px;background:none;border:1.5px solid var(--c3);color:var(--c3);border-radius:10px;padding:10px 20px;font-size:.85rem;cursor:pointer}
 .copyright{font-size:.65rem;color:var(--sub);margin-top:16px;opacity:.7}
 .hidden{display:none}
@@ -75,6 +80,17 @@ h1{font-size:1.25rem;color:var(--c5);margin-bottom:4px;line-height:1.5}
   <p style="font-size:.85rem;color:var(--sub)">あなたの支え方タイプは…</p>
   <div class="result-type" id="rtype"></div>
   <div class="result-badge" id="rbadge"></div>
+  <div class="cta-step">
+    <div class="cta-step-title">📱 診断のあとにやること</div>
+    <ol class="cta-step-list">
+      <li><span class="cta-step-num">①</span><span>LINEアプリに戻る</span></li>
+      <li><span class="cta-step-num">②</span><span>下の<strong>キーワード</strong>をそのまま送る</span></li>
+      <li><span class="cta-step-num">③</span><span>タイプ別の追加解説が自動で届く</span></li>
+    </ol>
+    <div class="cta-keyword-label">あなたのキーワード</div>
+    <div class="cta-keyword" id="rkeyword"></div>
+    <p class="cta-keyword-note">↑ この言葉をコピーせず、<br>LINEのトーク画面でそのまま送ってください</p>
+  </div>
   <div class="scores" id="rscores"></div>
   <div class="result-note" id="rnote"></div>
   <div class="result-desc" id="rdesc"></div>
@@ -83,9 +99,6 @@ h1{font-size:1.25rem;color:var(--c5);margin-bottom:4px;line-height:1.5}
     <div id="rdetail"></div>
   </div>
   <div class="result-common" id="rcommon"></div>
-  <div class="cta">LINEにキーワードを送る</div>
-  <p class="cta-hint">LINEアプリに戻って、下のキーワードを<br><strong>そのまま1つ</strong>送ってください。<br>追加解説が自動で届きます。</p>
-  <div class="cta-keyword" id="rkeyword"></div>
   <br>
   <button class="retry" onclick="reset()">もう一度診断する</button>
   <p class="copyright">© 2021 MIKIKO KAWANISHI</p>
